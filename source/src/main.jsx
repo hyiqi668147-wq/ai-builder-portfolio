@@ -49,6 +49,13 @@ const proofCards = [
   ["测试与部署", "完成本地 build、交互检查和部署路径验证。"],
 ];
 
+const caseStats = [
+  ["Role", "Product sense / Prompt design / Frontend"],
+  ["Stack", "React · Vite · Tailwind · GSAP"],
+  ["Status", "Deployed on GitHub Pages"],
+  ["Output", "Demo · Repository · Build record"],
+];
+
 const evidenceModules = [
   { year: "Problem", type: "定位", name: "求职表达常常缺少可验证证据，AI 输出又容易变成空泛包装。", tone: "dark" },
   { year: "Insight", type: "洞察", name: "真正有价值的是把真实经历转成岗位可读、可追问、可展示的能力证明。", tone: "light" },
@@ -164,6 +171,23 @@ function TransitionLayer() {
   );
 }
 
+function SignalStrip() {
+  const words = ["ProofMe", "AI Workflow", "Build Process", "Proof of Work", "Portfolio Vol.1"];
+
+  return (
+    <div className="signal-strip" aria-hidden="true">
+      <div className="signal-track">
+        {[...words, ...words, ...words].map((word, index) => (
+          <span key={`${word}-${index}`}>
+            {word}
+            <i>✳</i>
+          </span>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function Hero() {
   return (
     <section className="hero section-block" id="top">
@@ -188,9 +212,28 @@ function Hero() {
       <div className="hero-visual reveal">
         <img src={asset("assets/hero-abstract-ai-visual.png")} alt="" />
       </div>
+      <SignalStrip />
       <a className="scroll-cue reveal" href="#proofme">
         Scroll for more <ArrowDown size={18} />
       </a>
+    </section>
+  );
+}
+
+function WorksPrelude() {
+  return (
+    <section className="works-prelude section-block" aria-label="Works intro">
+      <div className="works-word reveal">
+        <em>W</em>orks
+      </div>
+      <div className="works-index reveal">
+        <span>01</span>
+        <strong>ProofMe</strong>
+        <p>AI 求职能力证明生成器 / 从想法到可部署作品</p>
+        <a href="#proofme">
+          Enter case <ArrowUpRight size={16} />
+        </a>
+      </div>
     </section>
   );
 }
@@ -206,9 +249,13 @@ function FeaturedWork() {
         </h2>
       </div>
       <div className="featured-grid">
-        <div className="mockup-card reveal">
+        <div className="mockup-card tilt-card reveal">
           <div className="image-mask" />
           <img src={asset("assets/proofme-product-mockup.png")} alt="ProofMe product interface mockup" />
+          <div className="mockup-hover">
+            <span>Hover Brief</span>
+            <strong>我负责把 AI 工作流翻译成产品页面、证据结构和可访问部署。</strong>
+          </div>
         </div>
         <div className="work-copy reveal">
           <p>
@@ -225,6 +272,14 @@ function FeaturedWork() {
                 <span>{title}</span>
                 <strong>{text}</strong>
               </article>
+            ))}
+          </div>
+          <div className="case-stats">
+            {caseStats.map(([label, value]) => (
+              <div key={label}>
+                <span>{label}</span>
+                <strong>{value}</strong>
+              </div>
             ))}
           </div>
         </div>
@@ -245,7 +300,7 @@ function Process() {
       </div>
       <div className="process-list">
         {processSteps.map(([num, title, text]) => (
-          <article className="process-row reveal" key={num}>
+          <article className="process-row reveal" key={num} data-title={title}>
             <span>{num}</span>
             <h3>{title}</h3>
             <p>{text}</p>
@@ -293,7 +348,7 @@ function EvidenceWall() {
         </h2>
       </div>
       <div className="masonry-wall">
-        {evidenceModules.map((item) => (
+        {evidenceModules.map((item, index) => (
           <article className={`evidence-card reveal ${item.tone}`} key={item.year}>
             <div className="image-mask" />
             <div className="evidence-visual">
@@ -301,7 +356,7 @@ function EvidenceWall() {
               <span>{item.type}</span>
             </div>
             <div className="evidence-info">
-              <span>({item.year})</span>
+              <span>({String(index + 1).padStart(2, "0")} / {item.year})</span>
               <p>{item.name}</p>
             </div>
           </article>
@@ -337,7 +392,7 @@ function Contact() {
           <a href="mailto:hello@example.com">
             <Mail size={18} /> 联系我
           </a>
-          <a href="https://github.com/" target="_blank" rel="noreferrer">
+          <a href="https://github.com/hyiqi668147-wq/ai-builder-portfolio" target="_blank" rel="noreferrer">
             <Github size={18} /> GitHub
           </a>
           <a href="#top">
@@ -444,9 +499,49 @@ function App() {
         repeat: -1,
         yoyo: true,
       });
+
+      gsap.utils.toArray(".works-word, .works-index").forEach((el, index) => {
+        gsap.fromTo(
+          el,
+          { yPercent: 18, opacity: 0 },
+          {
+            yPercent: 0,
+            opacity: 1,
+            duration: 1,
+            delay: index * 0.08,
+            ease: "power3.out",
+            scrollTrigger: {
+              trigger: ".works-prelude",
+              start: "top 76%",
+            },
+          }
+        );
+      });
     }, appRef);
 
+    const tiltCards = Array.from(appRef.current.querySelectorAll(".tilt-card"));
+    const tiltCleanups = tiltCards.map((card) => {
+      const onMove = (event) => {
+        const rect = card.getBoundingClientRect();
+        const x = (event.clientX - rect.left) / rect.width - 0.5;
+        const y = (event.clientY - rect.top) / rect.height - 0.5;
+        card.style.setProperty("--ry", `${x * 5}deg`);
+        card.style.setProperty("--rx", `${y * -5}deg`);
+      };
+      const onLeave = () => {
+        card.style.setProperty("--ry", "0deg");
+        card.style.setProperty("--rx", "0deg");
+      };
+      card.addEventListener("mousemove", onMove);
+      card.addEventListener("mouseleave", onLeave);
+      return () => {
+        card.removeEventListener("mousemove", onMove);
+        card.removeEventListener("mouseleave", onLeave);
+      };
+    });
+
     return () => {
+      tiltCleanups.forEach((cleanup) => cleanup());
       ctx.revert();
       lenis.destroy();
     };
@@ -460,6 +555,7 @@ function App() {
       <BottomMenu />
       <main>
         <Hero />
+        <WorksPrelude />
         <FeaturedWork />
         <Process />
         <Workflow />

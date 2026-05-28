@@ -36,9 +36,12 @@ body {
   margin: 0;
   min-width: 320px;
   background:
+    linear-gradient(90deg, rgba(25, 25, 27, 0.035) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(25, 25, 27, 0.028) 1px, transparent 1px),
     radial-gradient(circle at 76% 12%, rgba(115, 92, 255, 0.12), transparent 26rem),
     radial-gradient(circle at 18% 42%, rgba(106, 215, 255, 0.1), transparent 24rem),
     #e7e7e4;
+  background-size: 72px 72px, 72px 72px, auto, auto, auto;
   color: #19191b;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   overflow-x: hidden;
@@ -64,6 +67,8 @@ button {
   z-index: 80;
   padding-top: clamp(1rem, 1.6vw, 1.5rem);
   pointer-events: none;
+  color: #fff;
+  mix-blend-mode: difference;
 }
 
 .nav {
@@ -131,7 +136,7 @@ button {
   justify-self: end;
   border: 0;
   background: transparent;
-  color: #19191b;
+  color: currentColor;
   padding: 0;
 }
 
@@ -147,6 +152,8 @@ button {
   z-index: 70;
   padding-bottom: clamp(1rem, 1.55vw, 1.5rem);
   pointer-events: none;
+  color: #fff;
+  mix-blend-mode: difference;
 }
 
 .bottom-menu ul {
@@ -175,7 +182,7 @@ button {
 }
 
 .menu-number {
-  color: rgba(25, 25, 27, 0.48);
+  color: rgba(255, 255, 255, 0.48);
 }
 
 .menu-copy {
@@ -255,12 +262,26 @@ button {
   padding-inline: var(--edge);
 }
 
+.section-block::before {
+  content: "";
+  position: absolute;
+  inset: 0 var(--edge) auto;
+  height: 1px;
+  background: linear-gradient(90deg, rgba(25, 25, 27, 0.28), transparent);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   align-content: start;
   padding-top: clamp(5.8rem, 7.4vw, 7rem);
   padding-bottom: clamp(3.8rem, 6vw, 6rem);
+}
+
+.hero::before {
+  display: none;
 }
 
 .hero-kicker {
@@ -286,6 +307,7 @@ button {
 
 .hero-title span {
   display: block;
+  text-wrap: balance;
 }
 
 .serif-italic,
@@ -348,6 +370,7 @@ button {
   border-radius: 1.1rem;
   background: rgba(255, 255, 255, 0.18);
   box-shadow: 0 2.5rem 7rem rgba(36, 34, 70, 0.16);
+  transform-style: preserve-3d;
 }
 
 .hero-visual::after {
@@ -363,6 +386,37 @@ button {
   width: 100%;
   aspect-ratio: 16 / 6.4;
   object-fit: cover;
+}
+
+.signal-strip {
+  width: calc(100% + var(--edge) * 2);
+  margin: clamp(1.2rem, 2.2vw, 2.2rem) calc(var(--edge) * -1) 0;
+  overflow: hidden;
+  border-block: 1px solid rgba(25, 25, 27, 0.16);
+  background: rgba(247, 247, 242, 0.38);
+}
+
+.signal-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.signal-track span {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.1rem;
+  padding: 0.72rem 1.1rem;
+  color: rgba(25, 25, 27, 0.68);
+  font-size: clamp(0.86rem, 0.78vw, 0.96rem);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.signal-track i {
+  color: rgba(115, 92, 255, 0.72);
+  font-style: normal;
 }
 
 .scroll-cue {
@@ -405,6 +459,98 @@ button {
 .section-heading h2 span,
 .section-heading h2 em {
   display: block;
+  text-wrap: balance;
+}
+
+.works-prelude {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(18rem, 28rem);
+  align-items: end;
+  gap: 2rem;
+  min-height: clamp(25rem, 44vw, 38rem);
+  padding-top: clamp(3rem, 6vw, 5rem);
+  padding-bottom: clamp(3rem, 6vw, 5rem);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 78% 20%, rgba(115, 92, 255, 0.34), transparent 18rem),
+    radial-gradient(circle at 22% 88%, rgba(106, 215, 255, 0.22), transparent 16rem),
+    #090909;
+  color: #f4f1eb;
+}
+
+.works-prelude::before {
+  inset-inline: var(--edge);
+  background: rgba(244, 241, 235, 0.2);
+}
+
+.works-prelude::after {
+  content: "";
+  position: absolute;
+  inset: auto var(--edge) 1.4rem;
+  height: 1px;
+  background: rgba(244, 241, 235, 0.18);
+}
+
+.works-word {
+  font-size: clamp(6rem, 19vw, 22rem);
+  line-height: 0.78;
+  letter-spacing: -0.105em;
+  font-weight: 620;
+}
+
+.works-word em {
+  font-family: EditorialSerif, Georgia, serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.works-index {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.8rem;
+  border-left: 1px solid rgba(244, 241, 235, 0.22);
+  padding-left: clamp(1rem, 2vw, 1.7rem);
+}
+
+.works-index span {
+  color: rgba(244, 241, 235, 0.5);
+  font-weight: 700;
+}
+
+.works-index strong {
+  font-size: clamp(2rem, 3.4vw, 4rem);
+  line-height: 0.9;
+  letter-spacing: -0.075em;
+}
+
+.works-index p {
+  max-width: 28rem;
+  margin: 0;
+  color: rgba(244, 241, 235, 0.72);
+  font-size: clamp(1rem, 1.15vw, 1.25rem);
+  line-height: 1.18;
+  letter-spacing: -0.03em;
+}
+
+.works-index a {
+  width: max-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.5rem;
+  border: 1px solid rgba(244, 241, 235, 0.36);
+  border-radius: 999px;
+  padding: 0.55rem 0.85rem;
+  color: #f8f5ef;
+  font-weight: 650;
+  transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.works-index a:hover {
+  background: #f8f5ef;
+  color: #0b0b0b;
+  transform: translateY(-2px);
 }
 
 .featured,
@@ -437,6 +583,14 @@ button {
   min-height: 540px;
   overflow: hidden;
   border-radius: 1.2rem;
+  isolation: isolate;
+  cursor: pointer;
+  transform: perspective(1200px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition: transform 0.24s ease, box-shadow 0.24s ease;
+}
+
+.mockup-card:hover {
+  box-shadow: 0 2.2rem 6rem rgba(25, 25, 27, 0.24);
 }
 
 .mockup-card img {
@@ -445,6 +599,49 @@ button {
   min-height: 540px;
   object-fit: cover;
   display: block;
+  transition: transform 0.55s ease, filter 0.55s ease;
+}
+
+.mockup-card:hover img {
+  transform: scale(1.035);
+  filter: contrast(1.04) saturate(1.05);
+}
+
+.mockup-hover {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: 8rem 1fr;
+  gap: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  border-radius: 0.9rem;
+  padding: 0.95rem;
+  background: rgba(12, 13, 18, 0.62);
+  color: #f8f7f2;
+  backdrop-filter: blur(18px);
+  opacity: 0;
+  transform: translateY(1rem);
+  transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.mockup-card:hover .mockup-hover {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mockup-hover span {
+  color: rgba(248, 247, 242, 0.55);
+  font-size: 0.86rem;
+  font-weight: 700;
+}
+
+.mockup-hover strong {
+  font-size: clamp(1rem, 1.35vw, 1.45rem);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
 }
 
 .image-mask {
@@ -464,6 +661,7 @@ button {
   justify-content: space-between;
   border-radius: 1.2rem;
   padding: clamp(1.2rem, 2vw, 2rem);
+  min-height: 540px;
 }
 
 .work-copy > p {
@@ -499,22 +697,102 @@ button {
   letter-spacing: -0.025em;
 }
 
+.case-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.75rem;
+  margin-top: 1.35rem;
+}
+
+.case-stats div {
+  min-height: 6.2rem;
+  border: 1px solid rgba(25, 25, 27, 0.14);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.34);
+}
+
+.case-stats span {
+  display: block;
+  color: rgba(25, 25, 27, 0.45);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.case-stats strong {
+  display: block;
+  margin-top: 1.45rem;
+  font-size: clamp(0.95rem, 1vw, 1.1rem);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+
 .process-list {
   border-top: 1px solid #19191b;
 }
 
 .process-row {
+  position: relative;
   display: grid;
   grid-template-columns: 5rem minmax(14rem, 0.35fr) minmax(0, 1fr);
   gap: clamp(1rem, 2vw, 2rem);
   align-items: start;
   border-bottom: 1px solid rgba(25, 25, 27, 0.2);
   padding: clamp(1.1rem, 1.8vw, 1.8rem) 0;
+  overflow: hidden;
+  transition: color 0.32s ease, padding-inline 0.32s ease;
+}
+
+.process-row::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: #19191b;
+  transform: scaleY(0);
+  transform-origin: bottom;
+  transition: transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.process-row::after {
+  content: attr(data-title);
+  position: absolute;
+  right: 0;
+  top: 50%;
+  color: rgba(247, 247, 241, 0.08);
+  font-size: clamp(4rem, 8vw, 10rem);
+  line-height: 0.8;
+  letter-spacing: -0.08em;
+  font-weight: 700;
+  transform: translateY(-50%) translateX(16%);
+  opacity: 0;
+  transition: opacity 0.32s ease, transform 0.32s ease;
+  pointer-events: none;
+}
+
+.process-row:hover {
+  color: #f7f7f1;
+  padding-inline: 1rem;
+}
+
+.process-row:hover::before {
+  transform: scaleY(1);
+}
+
+.process-row:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(8%);
 }
 
 .process-row span {
   color: rgba(25, 25, 27, 0.5);
   font-weight: 700;
+  transition: color 0.3s ease;
+}
+
+.process-row:hover span,
+.process-row:hover p {
+  color: rgba(247, 247, 241, 0.72);
 }
 
 .process-row h3 {
@@ -530,6 +808,7 @@ button {
   font-size: clamp(1rem, 1.32vw, 1.45rem);
   line-height: 1.24;
   letter-spacing: -0.035em;
+  transition: color 0.3s ease;
 }
 
 .workflow {
@@ -564,6 +843,20 @@ button {
     linear-gradient(135deg, rgba(255, 255, 255, 0.58), rgba(255, 255, 255, 0.22)),
     rgba(231, 231, 228, 0.5);
   transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.tool-card::after {
+  content: "";
+  position: absolute;
+  inset: auto 1rem 1rem auto;
+  width: 0.48rem;
+  height: 0.48rem;
+  border-radius: 50%;
+  background: #735cff;
+  opacity: 0.35;
+  transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
 .tool-card:hover {
@@ -572,6 +865,11 @@ button {
   background:
     radial-gradient(circle at 85% 18%, rgba(115, 92, 255, 0.18), transparent 8rem),
     rgba(247, 247, 243, 0.7);
+}
+
+.tool-card:hover::after {
+  opacity: 1;
+  transform: scale(1.8);
 }
 
 .tool-card span {
@@ -610,6 +908,13 @@ button {
   border: 1px solid rgba(25, 25, 27, 0.16);
   border-radius: 1rem;
   background: rgba(250, 250, 246, 0.62);
+  transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease;
+}
+
+.evidence-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(25, 25, 27, 0.3);
+  box-shadow: 0 1.6rem 4rem rgba(25, 25, 27, 0.12);
 }
 
 .evidence-card:nth-child(2n) {
@@ -638,6 +943,9 @@ button {
   align-items: flex-start;
   justify-content: space-between;
   padding: 1rem;
+  background:
+    linear-gradient(135deg, transparent 0 46%, rgba(25, 25, 27, 0.08) 46% 46.5%, transparent 46.5%),
+    radial-gradient(circle at 15% 85%, rgba(115, 92, 255, 0.16), transparent 7rem);
 }
 
 .evidence-visual span {
@@ -681,6 +989,12 @@ button {
   min-height: 200px;
   border-radius: 0.9rem;
   padding: 0.95rem;
+  transition: transform 0.28s ease, background 0.28s ease;
+}
+
+.proof-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.62);
 }
 
 .proof-card h3 {
@@ -828,7 +1142,22 @@ button {
   }
 }
 
+@keyframes marquee {
+  to {
+    transform: translateX(-33.333%);
+  }
+}
+
 @media (max-width: 1180px) {
+  .works-prelude {
+    grid-template-columns: 1fr;
+    align-items: end;
+  }
+
+  .works-index {
+    width: min(100%, 34rem);
+  }
+
   .featured-grid {
     grid-template-columns: 1fr;
   }
@@ -912,6 +1241,27 @@ button {
     aspect-ratio: 4 / 3;
   }
 
+  .signal-track span {
+    padding-block: 0.62rem;
+  }
+
+  .works-prelude {
+    min-height: 27rem;
+    padding-top: 5rem;
+    padding-bottom: 3rem;
+  }
+
+  .works-word {
+    font-size: clamp(6.4rem, 30vw, 12rem);
+  }
+
+  .works-index {
+    border-left: 0;
+    border-top: 1px solid rgba(244, 241, 235, 0.22);
+    padding-left: 0;
+    padding-top: 1rem;
+  }
+
   .scroll-cue {
     margin-left: 0;
   }
@@ -930,13 +1280,43 @@ button {
     min-height: 420px;
   }
 
+  .mockup-hover {
+    grid-template-columns: 1fr;
+    opacity: 1;
+    transform: none;
+  }
+
+  .work-copy {
+    min-height: auto;
+  }
+
   .zone-card {
     grid-template-columns: 1fr;
     gap: 0.35rem;
   }
 
+  .case-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .case-stats div {
+    min-height: 5.2rem;
+  }
+
+  .case-stats strong {
+    margin-top: 1rem;
+  }
+
   .process-row {
     grid-template-columns: 3.2rem 1fr;
+  }
+
+  .process-row::after {
+    display: none;
+  }
+
+  .process-row:hover {
+    padding-inline: 0.75rem;
   }
 
   .process-row p {
@@ -1003,7 +1383,7 @@ button {
   }
 
   .hero-title {
-    font-size: 3.65rem;
+    font-size: 3.45rem;
   }
 
   .hero-kicker {
@@ -1012,5 +1392,14 @@ button {
 
   .masonry-wall {
     columns: 1;
+  }
+
+  .works-word {
+    font-size: 5.8rem;
+  }
+
+  .mockup-card,
+  .mockup-card img {
+    min-height: 360px;
   }
 }
